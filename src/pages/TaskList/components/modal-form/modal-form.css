@@ -1,0 +1,15 @@
+.modal-form{
+  height: 390px;
+  width: 500px;
+  border:none;
+  border-radius: 3px;
+}
+
+.modal-form__form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+}
+
