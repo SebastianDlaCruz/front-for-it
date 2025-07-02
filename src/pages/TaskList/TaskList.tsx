@@ -12,7 +12,7 @@ const Home = () => {
 
   const navigate = useNavigate();
   const { tasks, setTasks } = UseTaskFetch({ httpMethod: new TasksService('task') });
-  const { handleOpenDialog, refDialog } = useDialog();
+  const { handleOpenDialog, open, handleCloseDialog } = useDialog();
 
 
   const handleeDelete = (id: number) => {
@@ -31,14 +31,12 @@ const Home = () => {
         <h1>Lista de tareas</h1>
       </header>
 
-
       <main className='padding-inline'>
         <Nav onOpenModal={handleOpenDialog} />
         <Table tasks={tasks} deleteTask={handleeDelete} viewTask={handleView} />
       </main>
 
-      <ModalForm refDialog={refDialog} />
-
+      <ModalForm open={open} onClose={handleCloseDialog} />
     </>
   )
 }

@@ -1,4 +1,4 @@
-import type { Task } from "../../models";
+import type { CreateTask } from "../../models";
 import type { TaskMethods } from "./task.interface";
 
 /** 
@@ -13,13 +13,13 @@ export class TasksService implements TaskMethods {
   constructor(path: string) {
     this.path = path;
   }
-  create(task: Task): Promise<Response> {
+  create(task: CreateTask): Promise<Response> {
     return fetch(`${this.API}/${this.path}`, {
       method: 'POST',
       body: JSON.stringify(task)
     })
   }
-  update(id: number, task: Task): Promise<Response> {
+  update(id: number, task: CreateTask): Promise<Response> {
     return fetch(`${this.API}/${this.path}/${id}`, {
       method: 'PUT',
       body: JSON.stringify(task)

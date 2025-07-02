@@ -1,4 +1,5 @@
-import { useParams } from "react-router";
+import { DynamicIcon } from 'lucide-react/dynamic';
+import { useNavigate, useParams } from "react-router";
 import { dateTransform } from "../../adapters";
 import { StateTask } from "../../components";
 import { UseTaskFetch } from "../../hook";
@@ -10,9 +11,13 @@ const TaskItem = () => {
 
   const { id } = useParams();
   const { task } = UseTaskFetch({ httpMethod: new TasksService('task'), id: Number(id) });
+  const navigate = useNavigate();
 
+  const handleBack = () => {
+    navigate(-1);
+  }
   return (
-    <main>
+    <main className='task-item'>
 
       {
         task ?
@@ -29,7 +34,14 @@ const TaskItem = () => {
             </section>
 
           </>
-          : <LoaderTask />
+          :
+          <div className="container-loader">
+            <LoaderTask />
+            <button className='container-loader__button' onClick={handleBack}>
+              <DynamicIcon className='container-loader__loader' name="arrow-left" color="white" size={20} />
+              <span>volver</span>
+            </button>
+          </div>
       }
 
     </main>

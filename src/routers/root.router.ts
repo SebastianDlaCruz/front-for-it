@@ -12,8 +12,6 @@ export const rootRouter = createBrowserRouter([
         Component: TaskList.default
       }
     }
-
-
   },
   {
     path: 'task-item/:id',

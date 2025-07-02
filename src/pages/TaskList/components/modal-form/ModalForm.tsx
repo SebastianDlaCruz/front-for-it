@@ -1,25 +1,65 @@
+import { DynamicIcon } from "lucide-react/dynamic";
+import { useForm } from "react-hook-form";
+import { CustomInput } from "../../../../components";
+import { UseTaskFetch } from "../../../../hook";
+import type { CreateTask } from "../../../../models";
+import { TasksService } from "../../../../services";
 import "./modal-form.css";
 interface Props {
-  refDialog: React.RefObject<HTMLDialogElement | null>
-
+  open: boolean;
+  onClose: () => void;
 }
-const ModalForm = ({ refDialog }: Props) => {
+
+
+const ModalForm = ({ onClose, open }: Props) => {
+
+  const { create } = UseTaskFetch({ httpMethod: new TasksService('task') });
+
+  const { handleSubmit, register } = useForm<CreateTask>();
+
+  const onSubmit = (data: CreateTask) => {
+    console.log(data)
+    create(data);
+  }
 
   return (
-    <dialog className="modal-form" ref={refDialog}>
-      <button >
-        X
-      </button>
-      <form className="modal-form__form" method="dialog">
-        <input type="text" placeholder="Title" />
-        <input type="text" placeholder="Description" />
-        <select name="status" id="">
-          <option value={"true"}>Completado</option>
-          <option value={"true"}>Pendiente</option>
-        </select>
-        <button type="submit">Save</button>
-      </form>
-    </dialog>
+
+    <section className={open ? "container-modal container-modal--open" : "container-modal"}  >
+
+      <div className="modal-form">
+
+        <header>
+          <h3>Crear Tarea</h3>
+        </header>
+
+        <button className="modal-form__exit" onClick={onClose}>
+          <DynamicIcon name="x" color="white" size={20} />
+        </button>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="modal-form__form" >
+
+          <CustomInput type="text" label="Titulo" placeholder="Ejemplo: Hacer la compra" refHtml="title" register={register("title", {
+            required: 'El campo es requerido'
+          })} />
+
+          <div className="modal-form__container-textarea">
+            <label htmlFor="">Descripción</label>
+            <textarea id="description" {...register("description", {
+              required: 'El campo es requerido'
+            })}></textarea>
+          </div>
+
+
+          <select id="states" className="states" {...register("completed")}>
+            <option value="true">Completado</option>
+            <option value="false">Pendiente</option>
+          </select>
+
+          <button type="submit" className="modal-form__button">Save</button>
+        </form>
+      </div>
+
+    </section>
   )
 }
 

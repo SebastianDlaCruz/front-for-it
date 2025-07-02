@@ -14,11 +14,13 @@ const Table = ({ tasks, deleteTask, viewTask }: Props) => {
     <>
       <table className="table">
         <thead>
-          <th>Titulo</th>
-          <th>Descripción</th>
-          <th>Completado</th>
-          <th>Fecha de creación</th>
-          <td>Opciones</td>
+          <tr>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Completado</th>
+            <th>Fecha de creación</th>
+            <td>Opciones</td>
+          </tr>
         </thead>
 
         <tbody>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import type { ResponseHttpData, Task } from "../../models"
+import type { CreateTask, ResponseHttpData, Task } from "../../models"
 import type { TaskMethods } from "../../services/task/task.interface"
 interface Props {
   httpMethod: TaskMethods
@@ -39,33 +39,68 @@ export const UseTaskFetch = ({ httpMethod, id }: Props) => {
 
   const getTask = async () => {
 
-    const res = await httpMethod.getFind()
+    try {
 
-    if (!res.ok) throw new Error('Error al obtener las tareas');
+      const res = await httpMethod.getFind()
 
-    const resHttp = await res.json() as ResponseHttpData<Task[]>;
+      if (!res.ok) throw new Error('Error al obtener las tareas');
 
-    const { data } = resHttp;
+      const resHttp = await res.json() as ResponseHttpData<Task[]>;
 
-    setTasks([
-      ...tasks,
-      ...data
-    ])
+      const { data } = resHttp;
+
+      setTasks([
+        ...tasks,
+        ...data
+      ])
+
+    } catch (e) {
+      console.error(e);
+    }
+
   }
 
   const getFindOne = async (id: number) => {
-    const res = await httpMethod.getFindOne(id)
-    const data = await res.json() as ResponseHttpData<Task>;
+    try {
 
-    setTask(data.data);
+      const res = await httpMethod.getFindOne(id)
+
+      if (!res.ok) throw new Error('Error al obtener la tarea');
+      const data = await res.json() as ResponseHttpData<Task>;
+
+      setTask(data.data)
+
+    } catch (error) {
+      console.log(error)
+    }
+    ;
   }
 
-  const create = async (task: Task) => {
-    await httpMethod.create(task);
+  const create = async (task: CreateTask) => {
+
+    try {
+      const res = await httpMethod.create(task);
+
+      if (!res.ok) throw new Error('Error al crear la tarea');
+
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   const deleteTask = async (id: number) => {
-    await httpMethod.delete(id);
+
+    try {
+
+      const res = await httpMethod.delete(id);
+
+      if (!res.ok) throw new Error('Error al eliminar la tarea');
+
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   useEffect(() => {

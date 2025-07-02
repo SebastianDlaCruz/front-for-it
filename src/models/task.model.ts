@@ -5,3 +5,6 @@ export interface Task {
   completed: boolean;
   createAd: Date;
 }
+
+
+export type CreateTask = Omit<Task, 'id' | 'createAd'>;
